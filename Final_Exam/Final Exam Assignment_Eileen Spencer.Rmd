@@ -1,0 +1,60 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+Data Obtained from https://www.kaggle.com/datasets/kuchhbhi/cpga-iq-placement
+
+Central Objective: determine if students with an IQ over 115 have a gpa of above 3.5
+```{r}
+getwd()
+```
+load libraries
+```{r}
+library(caret)
+library(class)
+library(ISLR)
+library(e1071)
+library(cluster)
+```
+Import .csv file
+```{r}
+Students <- read.csv("student_clustering.csv", header = TRUE, sep = ",")
+```
+Remove all missing values
+```{r}
+Students <- na.omit(Students)
+head(Students)
+```
+Turn IQ>115 into new binary variable
+```{r}
+Students$highiq <-ifelse(Students$iq>115,1,0)
+```
+Find Average GPA out of dataset
+```{r}
+mean(Students$cgpa)
+```
+Turn CGPA>6.9834 into new binary variable
+```{r}
+Students$highcgpa <- ifelse(Students$cgpa>6.9834,1,0)
+```
+Summarize 
+```{r}
+str(Students)
+```
+Create Pivot Table
+```{r}
+table(StudentsCgpa=Students$highcgpa, StudentsIQ=Students$highiq)
+```
+P(IQ>115) = 43/200 students have high IQs or .215 or 21.5%
+
+P(CGPA>6.9834) = 57/200 students have high CGPAs or .57 or 57%
+
+P(CGPA>6.9834|IQ>115) = 43/43+57 = .43 or 43%
+
+43% of people with an IQ higher than 115 will have a GPA higher than average
+
+
+
+
+
